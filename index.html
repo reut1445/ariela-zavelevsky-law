@@ -21,7 +21,7 @@
   <symbol id="c-lab" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M16 5v22M9 27h14M6 9h20M6 9l-4 9a4 4 0 0 0 8 0zM26 9l-4 9a4 4 0 0 0 8 0z"/></symbol>
   <symbol id="c-re" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M4 15 16 5l12 10M7 13v14h18V13M13 27v-8h6v8"/></symbol>
   <symbol id="c-fam" viewBox="0 0 32 32"><path fill="none" stroke="currentColor" stroke-width="1.5" d="M10 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM22 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM16 19a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM4 27v-7a6 6 0 0 1 9-5M28 27v-7a6 6 0 0 0-9-5M11 27v-2a5 5 0 0 1 10 0v2"/></symbol>
-  <symbol id="mark" viewBox="0 0 40 40"><rect x="9" y="9" width="22" height="22" transform="rotate(45 20 20)" fill="#A5D1D2"/><rect x="12" y="12.5" width="15" height="15" transform="rotate(-18 19.5 20)" fill="#fff"/><rect x="16" y="16" width="17" height="17" transform="rotate(45 24.5 24.5)" fill="#CEBCA7"/></symbol>
+  <symbol id="mark" viewBox="0 0 40 40"><polygon points="20,4.4 35.6,20 20,35.6 4.4,20" fill="#A5D1D2"/><polygon points="24.3,8.9 29.3,23.7 14.9,28.8 9.7,14.3" fill="#fff"/><polygon points="24.6,9 35.7,20 24.6,31.1 13.5,20" fill="#CEBCA7"/></symbol>
 </svg>
 </head>
 <body>
@@ -53,7 +53,6 @@
     <div class="hero-text">
       <h1>משרד עו״ד וגישור<br>אריאלה זבלבסקי</h1>
       <p class="hero-sub">ליווי משפטי לעסקים, חברות ולקוחות פרטיים<br><b>בגישה עסקית, פרקטית ומדויקת.</b></p>
-      <i class="hero-line" aria-hidden="true"></i>
       <div class="ctas">
         <a class="btn btn-light" href="https://wa.me/972584090912" target="_blank" rel="noopener"><svg><use href="#i-wa"/></svg>לייעוץ בוואטסאפ</a>
         <a class="btn btn-outline" href="#contact">השאירו פרטים</a>
@@ -62,7 +61,7 @@
     <ul class="stats">
       <li><b class="num" dir="ltr">13+</b><span>שנות ניסיון</span></li>
       <li><span>ביצוע עסקאות</span><b>מהגדולות במשק הישראלי</b></li>
-      <li><b>ליווי אישי מא׳-ת׳.</b><span>שותפה עסקית שמכירה את העסק שלכם מבפנים.</span></li>
+      <li><b>ליווי אישי <span class="nw">מא׳&#8209;ת׳.</span></b><span>שותפה עסקית שמכירה את העסק שלכם מבפנים.</span></li>
     </ul>
   </div>
 
@@ -101,6 +100,7 @@
     <h2 class="disp center"><span class="tp">תחומי עיסוק</span> ושירותים</h2>
     <p class="sec-p center">ייעוץ וליווי משפטי שוטף לחברות, לעסקים וללקוחות פרטיים. מעל 13 שנות ניסיון בהובלת מהלכים משפטיים, ניסוח הסכמים מורכבים ופתרון סכסוכים, תוך הדגשת הגישה של ״משפט מונע״ המייצר יציבות ושקט נפשי.</p>
 
+    <div class="svc-box">
     <div class="tabs" role="tablist" aria-label="תחומי עיסוק">
       <button role="tab" id="t-biz" aria-controls="p-biz" aria-selected="true">המגזר העסקי, המסחרי והתאגידי</button>
       <button role="tab" id="t-labor" aria-controls="p-labor" aria-selected="false" tabindex="-1">דיני עבודה – ייצוג מעסיקים ועובדים</button>
@@ -136,6 +136,7 @@
         <article class="card"><img src="assets/icons/will.svg" alt=""><h3>צוואות וצוואות הדדיות</h3><p>עריכת צוואות אישיות וצוואות הדדיות בין בני זוג, המבטיחות חלוקה רציונלית וברורה ומונעות סכסוכים משפחתיים בעתיד.</p></article>
         <article class="card"><img src="assets/icons/poa.svg" alt=""><h3>ייפוי כוח מתמשך</h3><p>עריכת ייפוי כוח מתמשך ומסמך הנחיות מקדימות לקביעת זהות מנהלי העניינים האישיים, הרפואיים והרכושיים בעתיד.</p></article>
       </div>
+    </div>
     </div>
   </div>
 </section>
@@ -338,12 +339,24 @@
     });
   }
   tabs.forEach((t, i) => {
-    t.addEventListener('click', () => selectTab(t));
+    t.addEventListener('click', () => {
+      const p = document.getElementById(t.getAttribute('aria-controls'));
+      const mobile = matchMedia('(max-width:767px)').matches;
+      if (mobile && t.getAttribute('aria-selected') === 'true' && !p.hidden) { p.hidden = true; t.setAttribute('aria-expanded', 'false'); return; }
+      selectTab(t);
+      if (mobile) { t.setAttribute('aria-expanded', 'true'); requestAnimationFrame(() => goTo(t)); }
+    });
     t.addEventListener('keydown', e => {
       const d = e.key === 'ArrowLeft' ? 1 : e.key === 'ArrowRight' ? -1 : 0; if (!d) return;
       const n = tabs[(i + d + tabs.length) % tabs.length]; selectTab(n); n.focus();
     });
   });
+
+  // Mobile: start with every category closed so all four rows show at once
+  if (matchMedia('(max-width:767px)').matches) {
+    document.querySelectorAll('.svc-box .panel').forEach(p => p.hidden = true);
+    document.getElementById('t-biz').setAttribute('aria-expanded', 'false');
+  }
 
   // Headings rise word by word
   function splitWords(el){
@@ -367,6 +380,31 @@
   }
   if (!reduce) document.querySelectorAll('.hero h1, .disp, .credo-q').forEach(splitWords);
 
+  // Gentle text: paragraphs surface word by word (soft fade, slight lift, blur clears)
+  function fadeWords(el){
+    let i = 0;
+    (function walk(node){
+      [...node.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span'); w.className = 'wf'; w.textContent = part; w.style.setProperty('--i', i++);
+            frag.appendChild(w);
+          });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1 && n.tagName !== 'BR' && !n.classList.contains('nw')) walk(n);
+      });
+    })(el);
+    el.classList.remove('rv'); el.classList.add('fx');
+  }
+  if (!reduce) document.querySelectorAll('.hero-sub, .sec-p, .lead, .credo-p, .q h3, .q p, .contact-p, .stats li>span, .stats li>b:not(.num)').forEach(fadeWords);
+
+  // 13+ counts up once
+  const num = document.querySelector('.stats .num');
+  if (num && !reduce) { num.textContent = '0+'; setTimeout(() => { let n = 0; const t = setInterval(() => { n++; num.textContent = n + '+'; if (n >= 13) clearInterval(t); }, 70); }, 1500); }
+
   // Staggered groups; once the entrance is over, drop the delays so hover reacts instantly
   document.querySelectorAll('.tiles, .stats, .dia-list, .tst-grid').forEach(g => {
     g.classList.add('stagger'); [...g.children].forEach((c, i) => c.style.setProperty('--i', i));
@@ -376,7 +414,7 @@
     e.target.classList.add('in'); io.unobserve(e.target);
     if (e.target.classList.contains('stagger')) setTimeout(() => e.target.classList.add('done'), 2200);
   }), { threshold: .15 });
-  document.querySelectorAll('.rv, .split, .stagger, .credo, .about-visual, .quad').forEach(el => io.observe(el));
+  document.querySelectorAll('.rv, .split, .stagger, .credo, .about-visual, .quad, .fx').forEach(el => io.observe(el));
 
   document.getElementById('lead').addEventListener('submit', e => {
     e.preventDefault();
