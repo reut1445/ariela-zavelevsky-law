@@ -145,7 +145,14 @@
   <div class="wrap about-top">
     <div class="about-visual">
       <span class="about-bg-word" aria-hidden="true">ABOUT ME</span>
-      <img class="about-img" src="assets/img/ariela-1-navy-diamond.png" alt="עו״ד אריאלה זבלבסקי" loading="lazy">
+      <div class="portrait about-img">
+        <svg class="pt-geo" viewBox="0 0 1400 1600" aria-hidden="true">
+          <polygon class="pl pl-teal" points="660,220 1280,840 660,1460 40,840"/>
+          <polygon class="pl pl-sheet" points="580,338 1162,660 840,1242 258,920"/>
+          <polygon class="pl pl-taupe" points="930,760 1230,1060 930,1360 630,1060"/>
+        </svg>
+        <img src="assets/img/ariela-1-navy-cut.png" alt="עו״ד אריאלה זבלבסקי" loading="lazy">
+      </div>
       <div class="bubble b-taupe"><b>שירות רב-לשוני:</b>השירות מוענק בשפה העברית ובשפה הרוסית.</div>
       <div class="bubble b-teal"><b>פריסה שירותית:</b>מענה פרונטלי לצד שירות דיגיטלי נגיש ומהיר ללקוחות בכל רחבי הארץ.</div>
       <span class="tag">תמונה זמנית (AI)</span>
@@ -174,7 +181,14 @@
       <p class="lead rv">כל לקוח, בין אם מדובר בחברה בע״מ, בעל עסק עצמאי, או משפחה המבקשת להבטיח את עתידה, זוכה אצלי ליחס אישי, הקשבה עמוקה ותפירת <b>״חליפה משפטית אישית״</b> המותאמת בדיוק למטרותיו ולצרכיו הייחודיים. עבודתי מבוססת על שקיפות מלאה, זמינות גבוהה, ירידה לפרטים הקטנים וחשיבה אסטרטגית ויצירתית.</p>
       <a class="btn btn-ghost" href="#contact">השאירו פרטים</a>
     </div>
-    <img class="personal-img" src="assets/img/ariela-2-cream-diamond.png" alt="" loading="lazy">
+    <div class="portrait personal-img">
+        <svg class="pt-geo" viewBox="0 0 1400 1600" aria-hidden="true">
+          <polygon class="pl pl-teal" points="660,220 1280,840 660,1460 40,840"/>
+          <polygon class="pl pl-sheet" points="580,338 1162,660 840,1242 258,920"/>
+          <polygon class="pl pl-taupe" points="930,760 1230,1060 930,1360 630,1060"/>
+        </svg>
+        <img src="assets/img/ariela-2-cream-cut.png" alt="" loading="lazy">
+      </div>
   </div>
 </section>
 
@@ -244,7 +258,8 @@
 <footer class="ftr">
   <div class="wrap">
     <span>© 2026 עו״ד אריאלה זבלבסקי - משרד עורכי דין וגישור</span>
-    <nav><a href="#">מדיניות פרטיות</a><a href="#">הצהרת נגישות</a><span>עיצוב: רעות קישון</span></nav>
+    <span class="credit">גופן החתימה: OH Adi Odeya Baruch, מיזם ההנצחה ״אות.חיים״</span>
+    <nav><a href="#">מדיניות פרטיות</a><a href="#">הצהרת נגישות</a><span>עיצוב: מגן דיגיטל</span></nav>
   </div>
 </footer>
 
@@ -288,6 +303,29 @@
     b.setAttribute('aria-expanded', open);
   }));
 
+  // Portraits: the logo layers behind her turn slightly as the section scrolls past
+  const portraits = [...document.querySelectorAll('.portrait')];
+  let ticking = false;
+  function turn(){
+    ticking = false;
+    portraits.forEach(el => {
+      const r = el.getBoundingClientRect();
+      const p = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
+      el.style.setProperty('--p', p.toFixed(3));
+    });
+  }
+  // Why: the centre diamond grows and turns as the section reaches the middle of the screen
+  const quad = document.querySelector('.quad');
+  function grow(){
+    const r = quad.getBoundingClientRect();
+    const d = Math.abs(r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+    quad.style.setProperty('--g', Math.max(0, 1 - d * 1.6).toFixed(3));
+  }
+  if (!reduce) { addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { turn(); grow(); }); } }, { passive: true }); turn(); grow(); }
+
+  // Tile lists: each line fades in after the sheet opens
+  document.querySelectorAll('.tile .more li').forEach((li, i, all) => li.style.setProperty('--j', [...li.parentNode.children].indexOf(li)));
+
   // Services tabs
   const tabs = [...document.querySelectorAll('[role="tab"]')];
   function selectTab(t){
@@ -330,7 +368,7 @@
   if (!reduce) document.querySelectorAll('.hero h1, .disp, .credo-q').forEach(splitWords);
 
   // Staggered groups; once the entrance is over, drop the delays so hover reacts instantly
-  document.querySelectorAll('.tiles, .stats, .quad, .dia-list, .tst-grid').forEach(g => {
+  document.querySelectorAll('.tiles, .stats, .dia-list, .tst-grid').forEach(g => {
     g.classList.add('stagger'); [...g.children].forEach((c, i) => c.style.setProperty('--i', i));
   });
   const io = new IntersectionObserver(es => es.forEach(e => {
@@ -338,7 +376,7 @@
     e.target.classList.add('in'); io.unobserve(e.target);
     if (e.target.classList.contains('stagger')) setTimeout(() => e.target.classList.add('done'), 2200);
   }), { threshold: .15 });
-  document.querySelectorAll('.rv, .split, .stagger, .credo, .about-visual').forEach(el => io.observe(el));
+  document.querySelectorAll('.rv, .split, .stagger, .credo, .about-visual, .quad').forEach(el => io.observe(el));
 
   document.getElementById('lead').addEventListener('submit', e => {
     e.preventDefault();
