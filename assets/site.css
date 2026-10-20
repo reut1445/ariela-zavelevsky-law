@@ -425,3 +425,13 @@ body.menu-open .wa{opacity:0;pointer-events:none}
 .portrait.framed img.pt-photo{position:absolute;top:11%;bottom:auto;left:6%;transform:none;width:66%;height:auto;max-width:none;aspect-ratio:1070/1338;object-fit:cover;object-position:40% 20%;z-index:1;box-shadow:0 30px 60px -20px rgba(1,60,62,.35)}
 .framed::after{content:"";position:absolute;top:calc(11% + 14px);left:calc(6% + 14px);width:66%;aspect-ratio:1070/1338;border:1.5px solid var(--taupe);pointer-events:none}
 .framed .pl-sheet{display:none}
+/* Mobile: About visual centred inside the page, credo symmetric */
+@media (max-width:767px){
+  .about-visual{width:min(84%,300px);margin-inline:auto}
+  .about-bg-word{top:-4%;font-size:15vw}
+  .b-taupe{width:128px;height:128px;left:-16px;bottom:26%;padding:14px;font-size:12px}
+  .b-teal{width:142px;height:142px;left:auto;right:6%;bottom:-46px;padding:16px;font-size:12px}
+  .bubble b{font-size:17px}
+  .credo{box-shadow:0 12px 0 var(--teal-l)}
+  .credo-d{width:60px;height:60px;top:-30px;left:calc(50% - 30px)}
+}
