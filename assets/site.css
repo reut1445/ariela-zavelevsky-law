@@ -419,3 +419,9 @@ body.menu-open .wa{opacity:0;pointer-events:none}
   .credo-d{width:64px;height:64px;top:-22px;left:-22px}
   .wa{width:54px;height:54px;bottom:16px;left:16px}
 }
+
+/* Personal: office photo in a frame over the logo diamonds */
+.portrait.framed{border-bottom:0}
+.portrait.framed img.pt-photo{position:absolute;top:11%;bottom:auto;left:6%;transform:none;width:66%;height:auto;max-width:none;aspect-ratio:1070/1338;object-fit:cover;object-position:40% 20%;z-index:1;box-shadow:0 30px 60px -20px rgba(1,60,62,.35)}
+.framed::after{content:"";position:absolute;top:calc(11% + 14px);left:calc(6% + 14px);width:66%;aspect-ratio:1070/1338;border:1.5px solid var(--taupe);pointer-events:none}
+.framed .pl-sheet{display:none}
